@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李昊阳 — 个人简历</title>
+    <style>
+        :root {
+            --navy: #0f1a2e;
+            --navy-light: #1a2d47;
+            --gold: #c9a962;
+            --gold-light: #e0d0a0;
+            --white: #ffffff;
+            --gray-50: #f8f9fa;
+            --gray-100: #f1f3f5;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-600: #6c757d;
+            --gray-700: #495057;
+            --gray-800: #343a40;
+            --gray-900: #212529;
+            --radius: 12px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow: 0 4px 24px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 48px rgba(0,0,0,0.12);
+            --font-sans: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', system-ui, -apple-system, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ─── NAVIGATION ─── */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(15, 26, 46, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(201, 169, 98, 0.15);
+            transition: all 0.3s ease;
+        }
+        .nav.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,0.3); }
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            height: 64px;
+        }
+        .nav-logo { font-size: 1.25rem; font-weight: 700; color: var(--gold); letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+        .nav-links a {
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--white); }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-download {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 18px;
+            background: var(--gold);
+            color: var(--navy) !important;
+            border-radius: 50px;
+            font-weight: 700 !important;
+            font-size: 0.82rem !important;
+            text-decoration: none;
+            transition: all 0.3s ease !important;
+        }
+        .nav-download:hover {
+            background: var(--gold-light) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(201,169,98,0.35);
+        }
+        .nav-download::after { display: none !important; }
+        .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+        .nav-toggle span { width: 24px; height: 2px; background: var(--gold); border-radius: 2px; transition: 0.3s; }
+
+        /* ─── HERO ─── */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--navy) 0%, #162544 50%, var(--navy-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(ellipse at 30% 50%, rgba(201,169,98,0.06) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 20%, rgba(201,169,98,0.04) 0%, transparent 50%);
+            animation: heroGlow 8s ease-in-out infinite alternate;
+        }
+        @keyframes heroGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-2%, 1%) scale(1.03); }
+        }
+        /* Floating particles */
+        .hero-particles {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; pointer-events: none; z-index: 0;
+        }
+        .particle {
+            position: absolute;
+            width: 2px; height: 2px;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFloat 6s ease-in-out infinite;
+        }
+        @keyframes particleFloat {
+            0%   { opacity: 0; transform: translateY(100vh) scale(0); }
+            10%  { opacity: 0.6; }
+            90%  { opacity: 0.2; }
+            100% { opacity: 0; transform: translateY(-10vh) scale(1); }
+        }
+        .hero-content { position: relative; z-index: 1; }
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 20px;
+            border: 1px solid rgba(201,169,98,0.4);
+            border-radius: 50px;
+            color: var(--gold-light);
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            margin-bottom: 32px;
+            text-transform: uppercase;
+            animation: fadeInUp 0.8s ease both;
+        }
+        .hero-name {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: 4px;
+            margin-bottom: 16px;
+            animation: fadeInUp 0.8s 0.1s ease both;
+            background: linear-gradient(90deg, #fff 0%, #c9a962 50%, #fff 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s 0.1s ease both, shimmer 4s ease-in-out infinite;
+        }
+        .hero-name span {
+            background: linear-gradient(90deg, var(--gold) 0%, #f0d68a 50%, var(--gold) 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.65);
+            font-weight: 400;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+            animation: fadeInUp 0.8s 0.2s ease both;
+        }
+        .hero-subtitle .cursor {
+            display: inline-block;
+            width: 2px; height: 1.1em;
+            background: var(--gold);
+            margin-left: 2px;
+            vertical-align: text-bottom;
+            animation: blink 0.8s step-end infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .hero-actions {
+            display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+            margin-bottom: 32px;
+            animation: fadeInUp 0.8s 0.3s ease both;
+        }
+        .hero-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 28px; border-radius: 50px;
+            font-size: 0.95rem; font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer; border: none;
+        }
+        .hero-btn-primary {
+            background: var(--gold); color: var(--navy);
+            box-shadow: 0 4px 20px rgba(201,169,98,0.3);
+        }
+        .hero-btn-primary:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(201,169,98,0.45);
+        }
+        .hero-btn-outline {
+            background: transparent; color: var(--white);
+            border: 1.5px solid rgba(255,255,255,0.3);
+        }
+        .hero-btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(201,169,98,0.08);
+            transform: translateY(-2px);
+        }
+        .hero-contact {
+            display: flex; gap: 28px; flex-wrap: wrap; justify-content: center;
+            animation: fadeInUp 0.8s 0.4s ease both;
+        }
+        .hero-contact-item {
+            display: flex; align-items: center; gap: 8px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .hero-contact-item:hover { color: var(--white); transform: translateY(-2px); }
+        .hero-contact-item .icon { color: var(--gold); font-size: 1.1rem; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .scroll-hint {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            animation: bounce 2s ease-in-out infinite;
+            cursor: pointer;
+        }
+        .scroll-hint:hover span { color: var(--gold-light); }
+        .scroll-hint span {
+            font-size: 0.75rem; color: rgba(255,255,255,0.4);
+            letter-spacing: 2px; transition: color 0.3s;
+        }
+        .scroll-hint .arrow {
+            width: 20px; height: 20px;
+            border-right: 2px solid rgba(201,169,98,0.5);
+            border-bottom: 2px solid rgba(201,169,98,0.5);
+            transform: rotate(45deg);
+            transition: border-color 0.3s;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* ─── SECTIONS ─── */
+        .section { padding: 100px 24px; }
+        .section-inner { max-width: 960px; margin: 0 auto; }
+        .section-tag {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+            animation: fadeInLeft 0.6s ease both;
+        }
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        .section-title {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 48px;
+            letter-spacing: 1px;
+            animation: fadeInLeft 0.6s 0.1s ease both;
+        }
+        .section-divider {
+            width: 48px; height: 3px;
+            background: var(--gold);
+            border-radius: 2px;
+            margin: 16px 0 48px;
+            animation: dividerGrow 0.8s 0.2s ease both;
+        }
+        @keyframes dividerGrow {
+            from { width: 0; opacity: 0; }
+            to   { width: 48px; opacity: 1; }
+        }
+
+        /* ─── ABOUT ─── */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+        .about-text { font-size: 1.05rem; color: var(--gray-700); line-height: 1.9; }
+        .about-text p + p { margin-top: 16px; }
+        .about-info { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .about-info-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .about-info-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+        .about-info-card .label {
+            font-size: 0.8rem; color: var(--gray-600); text-transform: uppercase;
+            letter-spacing: 1px; margin-bottom: 6px;
+        }
+        .about-info-card .value { font-size: 1rem; font-weight: 600; color: var(--navy); }
+
+        /* ─── EDUCATION ─── */
+        .edu-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 36px 40px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            position: relative;
+            overflow: hidden;
+        }
+        .edu-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 4px; height: 100%;
+            background: linear-gradient(180deg, var(--gold), var(--gold-light));
+            border-radius: 0 2px 2px 0;
+        }
+        .edu-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+        .edu-school { font-size: 1.35rem; font-weight: 700; color: var(--navy); }
+        .edu-date {
+            font-size: 0.9rem; color: var(--gold);
+            background: rgba(201,169,98,0.1);
+            padding: 4px 16px; border-radius: 50px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .edu-major { font-size: 1rem; color: var(--gray-600); margin-bottom: 16px; }
+        .edu-courses { display: flex; flex-wrap: wrap; gap: 10px; }
+        .course-tag {
+            background: var(--gray-100);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--gray-700);
+            transition: all 0.2s;
+        }
+        .course-tag { transition: all 0.3s ease; cursor: default; }
+        .course-tag:hover { background: var(--navy); color: var(--white); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+        .course-tag.highlight { background: rgba(201,169,98,0.15); color: #8b6914; font-weight: 600; }
+        .course-tag.highlight:hover { background: var(--navy); color: var(--white); }
+
+        /* ─── EXPERIENCE TIMELINE ─── */
+        .timeline { position: relative; padding-left: 40px; }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px; top: 0; bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--gold), var(--gray-300));
+            border-radius: 1px;
+        }
+        .timeline-item { position: relative; margin-bottom: 48px; }
+        .timeline-item:last-child { margin-bottom: 0; }
+        .timeline-dot {
+            position: absolute;
+            left: -33px; top: 6px;
+            width: 14px; height: 14px;
+            border-radius: 50%;
+            background: var(--gold);
+            box-shadow: 0 0 0 6px rgba(201,169,98,0.15);
+            animation: dotPulse 2.5s ease-in-out infinite;
+        }
+        @keyframes dotPulse {
+            0%, 100% { box-shadow: 0 0 0 6px rgba(201,169,98,0.15); }
+            50% { box-shadow: 0 0 0 12px rgba(201,169,98,0.05); }
+        }
+        .timeline-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 32px 36px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .timeline-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+        .timeline-role { font-size: 1.15rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+        .timeline-company { font-size: 1rem; color: var(--gray-600); margin-bottom: 8px; }
+        .timeline-meta {
+            display: flex; gap: 16px; flex-wrap: wrap;
+            font-size: 0.85rem; color: var(--gray-600);
+            margin-bottom: 20px; padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .timeline-meta span { display: flex; align-items: center; gap: 4px; }
+        .timeline-meta .icon { color: var(--gold); }
+        .timeline-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .timeline-list li {
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.92rem;
+            color: var(--gray-700);
+            line-height: 1.7;
+        }
+        .timeline-list li::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 10px;
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--gold);
+        }
+        .timeline-highlight {
+            display: inline-block;
+            background: linear-gradient(180deg, transparent 60%, rgba(201,169,98,0.25) 60%);
+            padding: 0 2px;
+            font-weight: 600;
+        }
+
+        /* ─── SKILLS ─── */
+        .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .skill-category {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .skill-category:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+        .skill-cat-icon { font-size: 2rem; margin-bottom: 16px; }
+        .skill-cat-title {
+            font-size: 1.05rem; font-weight: 700; color: var(--navy);
+            margin-bottom: 16px; padding-bottom: 12px;
+            border-bottom: 2px solid var(--gold);
+        }
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .skill-tag {
+            background: var(--gray-100);
+            padding: 5px 14px; border-radius: 50px;
+            font-size: 0.82rem; color: var(--gray-700);
+            transition: all 0.3s ease; cursor: default;
+        }
+        .skill-tag:hover { background: var(--navy); color: var(--white); transform: translateY(-2px) scale(1.05); }
+        .skill-tag.accent { background: rgba(201,169,98,0.15); color: #8b6914; font-weight: 600; }
+        .skill-tag.accent:hover { background: var(--navy); color: var(--white); }
+
+        /* ─── CAMPUS ─── */
+        .campus-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 36px 40px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+        }
+        .campus-role { font-size: 1.15rem; font-weight: 700; color: var(--navy); }
+        .campus-org { font-size: 1rem; color: var(--gray-600); margin-bottom: 8px; }
+        .campus-meta {
+            display: flex; gap: 16px; flex-wrap: wrap;
+            font-size: 0.85rem; color: var(--gray-600);
+            margin-bottom: 20px; padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .campus-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .campus-list li { padding-left: 20px; position: relative; font-size: 0.92rem; color: var(--gray-700); line-height: 1.7; }
+        .campus-list li::before {
+            content: '';
+            position: absolute; left: 0; top: 10px;
+            width: 6px; height: 6px;
+            border-radius: 50%; background: var(--gold);
+        }
+        .stat-number { font-weight: 800; color: var(--gold); }
+
+        /* ─── CONTACT ─── */
+        .contact-section { background: var(--navy); color: var(--white); text-align: center; }
+        .contact-section .section-title { color: var(--white); }
+        .contact-section .section-tag { color: var(--gold); }
+        .contact-grid { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+        .contact-link {
+            display: flex; align-items: center; gap: 12px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 1.05rem;
+            padding: 16px 28px;
+            border-radius: var(--radius);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+        .contact-link:hover {
+            background: rgba(201,169,98,0.12);
+            border-color: var(--gold);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+        .contact-link .icon { font-size: 1.3rem; }
+        .contact-footer { margin-top: 64px; font-size: 0.85rem; color: rgba(255,255,255,0.35); }
+        .contact-highlight { color: var(--gold-light); }
+
+        /* ─── STAGGERED LIST ANIMATIONS ─── */
+        .timeline-list li, .campus-list li {
+            animation: listFadeIn 0.5s ease both;
+        }
+        .timeline-list li:nth-child(1), .campus-list li:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-list li:nth-child(2), .campus-list li:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-list li:nth-child(3), .campus-list li:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes listFadeIn {
+            from { opacity: 0; transform: translateX(-8px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ─── DOWNLOAD SECTION ─── */
+        .download-section {
+            background: linear-gradient(135deg, var(--navy-light) 0%, var(--navy) 100%);
+            text-align: center;
+            padding: 60px 24px;
+        }
+        .download-card {
+            display: inline-flex; flex-direction: column; align-items: center; gap: 20px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(201,169,98,0.2);
+            border-radius: var(--radius);
+            padding: 40px 48px;
+            transition: all 0.3s ease;
+        }
+        .download-card:hover {
+            border-color: var(--gold);
+            background: rgba(201,169,98,0.06);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+        .download-card .dl-icon { font-size: 3rem; animation: floatIcon 3s ease-in-out infinite; }
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .download-card .dl-text { color: rgba(255,255,255,0.7); font-size: 0.95rem; }
+        .download-card .dl-filename { color: var(--gold-light); font-weight: 600; }
+        .download-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 14px 36px;
+            background: var(--gold);
+            color: var(--navy);
+            border-radius: 50px;
+            font-weight: 700; font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(201,169,98,0.25);
+        }
+        .download-btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(201,169,98,0.4);
+        }
+        .download-btn .dl-arrow { transition: transform 0.3s; }
+        .download-btn:hover .dl-arrow { transform: translateY(3px); }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed; top: 0; right: -100%;
+                width: 260px; height: 100vh;
+                background: var(--navy);
+                flex-direction: column;
+                padding: 80px 32px 40px;
+                gap: 24px;
+                transition: right 0.3s ease;
+                box-shadow: -8px 0 32px rgba(0,0,0,0.3);
+            }
+            .nav-links.open { right: 0; }
+            .nav-toggle { display: flex; z-index: 1001; }
+            .about-grid { grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: 1fr 1fr; }
+            .hero-name { font-size: 2.4rem; }
+            .section-title { font-size: 1.8rem; }
+            .timeline { padding-left: 32px; }
+            .timeline-dot { left: -25px; }
+            .timeline-card, .edu-card, .campus-card { padding: 24px 20px; }
+        }
+        @media (max-width: 480px) {
+            .skills-grid { grid-template-columns: 1fr; }
+            .about-info { grid-template-columns: 1fr; }
+            .hero-contact { flex-direction: column; gap: 12px; align-items: center; }
+            .contact-grid { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══════ NAVIGATION ═══════ -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <div class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="cursor:pointer;">HAOYANG</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about" onclick="closeNav()">关于我</a></li>
+                <li><a href="#education" onclick="closeNav()">教育背景</a></li>
+                <li><a href="#experience" onclick="closeNav()">实习经历</a></li>
+                <li><a href="#campus" onclick="closeNav()">校园经历</a></li>
+                <li><a href="#skills" onclick="closeNav()">技能证书</a></li>
+                <li><a href="#contact" onclick="closeNav()">联系方式</a></li>
+                <li><a href="李昊阳简历.pdf" class="nav-download" download>📄 下载简历</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="菜单">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ═══════ HERO ═══════ -->
+    <section class="hero">
+        <div class="hero-particles" id="heroParticles"></div>
+        <div class="hero-content">
+            <div class="hero-badge">Personal Resume</div>
+            <h1 class="hero-name">李<span>昊</span>阳</h1>
+            <p class="hero-subtitle" id="heroSubtitle">会计学（ACCA方向）· 审计与风控 · 数据分析<span class="cursor"></span></p>
+            <div class="hero-actions">
+                <a href="李昊阳简历.pdf" class="hero-btn hero-btn-primary" download>
+                    📄 下载简历 PDF
+                </a>
+                <a href="#contact" class="hero-btn hero-btn-outline">
+                    ✉️ 联系我
+                </a>
+            </div>
+            <div class="hero-contact">
+                <div class="hero-contact-item">
+                    <span class="icon">📧</span> 2479540927@qq.com
+                </div>
+                <div class="hero-contact-item">
+                    <span class="icon">📱</span> 137-2993-3566
+                </div>
+                <div class="hero-contact-item">
+                    <span class="icon">📍</span> 广东东莞
+                </div>
+            </div>
+        </div>
+        <div class="scroll-hint" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+            <span>向下滚动</span>
+            <div class="arrow"></div>
+        </div>
+    </section>
+
+    <!-- ═══════ ABOUT ═══════ -->
+    <section class="section" id="about">
+        <div class="section-inner">
+            <div class="section-tag">About Me</div>
+            <h2 class="section-title">关于我</h2>
+            <div class="section-divider"></div>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>
+                        我是华南农业大学 <strong>会计学（ACCA创新实验班）</strong>2027届本科生，已通过 ACCA <strong>10 门</strong>考试。
+                        具备审计与风控实习经验，熟悉会计准则与结账流程，独立执行资产盘点、合同验证及凭证审计，具备扎实的<strong>内控核查与风险识别</strong>能力。
+                    </p>
+                    <p>
+                        擅长数据处理与建模分析，熟练运用 Excel 处理千级数据，助力业财协同与异常识别。
+                        英语流利（CET-6），可阅读与撰写英文材料。学生干部经历锤炼了跨团队协作与流程推动能力，
+                        愿在<strong>财报编制、业财支持及风控方向</strong>创造价值。
+                    </p>
+                </div>
+                <div class="about-info">
+                    <div class="about-info-card">
+                        <div class="label">姓名</div>
+                        <div class="value">李昊阳</div>
+                    </div>
+                    <div class="about-info-card">
+                        <div class="label">出生年月</div>
+                        <div class="value">2005 / 05</div>
+                    </div>
+                    <div class="about-info-card">
+                        <div class="label">籍贯</div>
+                        <div class="value">广东东莞</div>
+                    </div>
+                    <div class="about-info-card">
+                        <div class="label">政治面貌</div>
+                        <div class="value">预备党员</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ EDUCATION ═══════ -->
+    <section class="section" id="education" style="background: var(--white);">
+        <div class="section-inner">
+            <div class="section-tag">Education</div>
+            <h2 class="section-title">教育背景</h2>
+            <div class="section-divider"></div>
+            <div class="edu-card">
+                <div class="edu-header">
+                    <div>
+                        <div class="edu-school">华南农业大学</div>
+                        <div class="edu-major">会计学（ACCA创新实验班）</div>
+                    </div>
+                    <div class="edu-date">2023.09 — 2027.06</div>
+                </div>
+                <div class="edu-courses">
+                    <span class="course-tag highlight">高级财务管理 ACCA-P4 <strong>100分</strong></span>
+                    <span class="course-tag highlight">金融学 <strong>96.9分</strong></span>
+                    <span class="course-tag highlight">ACCA-F6 税法 <strong>94分</strong></span>
+                    <span class="course-tag highlight">ACCA-F5 业绩管理 <strong>93.5分</strong></span>
+                    <span class="course-tag highlight">Python语言 <strong>91.5分</strong></span>
+                    <span class="course-tag">大学英语 90分</span>
+                    <span class="course-tag">ACCA 已通过 10 门</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ EXPERIENCE ═══════ -->
+    <section class="section" id="experience">
+        <div class="section-inner">
+            <div class="section-tag">Internship</div>
+            <h2 class="section-title">实习经历</h2>
+            <div class="section-divider"></div>
+            <div class="timeline">
+
+                <!-- 实习 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="timeline-role">审计助理</div>
+                        <div class="timeline-company">广东中职信会计师事务所（特殊普通合伙）东莞分所</div>
+                        <div class="timeline-meta">
+                            <span><span class="icon">📅</span> 2025.07 — 2025.08</span>
+                            <span><span class="icon">📍</span> 东莞</span>
+                        </div>
+                        <ul class="timeline-list">
+                            <li><span class="timeline-highlight">高效执行鉴证程序：</span>单日内独立完成整条行政村约30个厂房的现场盘点与账实核对，盘点准确率 <strong>100%</strong>，高质量满足鉴证业务证据充分性与合规性要求。</li>
+                            <li><span class="timeline-highlight">精准识别风险（全组第一）：</span>独立识别并整理 <strong>10 项重大审计问题</strong>（涵盖内控缺陷、凭证合规、资产账实不符等），问题发现量位列全组实习生<strong>第一名</strong>，为项目风险评估与审计调整提供关键依据。</li>
+                            <li><span class="timeline-highlight">高效沟通取证：</span>高效对接被审计单位（村两委）完成关键事项确认，<strong>100%</strong> 获取书面解释及确认文件，确保审计底稿完整规范，支撑审计结论的可靠性。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 实习 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="timeline-role">业务助理</div>
+                        <div class="timeline-company">东莞农村商业银行中心支行</div>
+                        <div class="timeline-meta">
+                            <span><span class="icon">📅</span> 2024.07 — 2024.08</span>
+                            <span><span class="icon">📍</span> 东莞</span>
+                        </div>
+                        <ul class="timeline-list">
+                            <li><span class="timeline-highlight">数据驱动客户挖掘：</span>针对 <strong>1000+</strong> 条存量信贷客户数据，运用 Excel 数据透视表等工具进行多维度清洗与分析，精准筛选出 <strong>20 家</strong>高价值潜在客户，为信贷业务拓展提供有力数据支持。</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ CAMPUS ═══════ -->
+    <section class="section" id="campus" style="background: var(--white);">
+        <div class="section-inner">
+            <div class="section-tag">Campus</div>
+            <h2 class="section-title">校园经历</h2>
+            <div class="section-divider"></div>
+            <div class="campus-card">
+                <div class="campus-role">秘书部部长</div>
+                <div class="campus-org">华南农业大学党务工作室秘书部</div>
+                <div class="campus-meta">
+                    <span><span class="icon">📅</span> 2025.09 — 2026.09</span>
+                </div>
+                <ul class="campus-list">
+                    <li>负责全组织 <strong class="stat-number">116</strong> 人绩效考核统筹，完成考勤统计、工作评定与结果公示，保障考评公平规范、落地执行。</li>
+                    <li>统筹每学期 <strong class="stat-number">2</strong> 次大型会议 + <strong class="stat-number">1</strong> 场百人党员外出现场教学，负责全流程组织、人员协调与现场保障，确保<strong>零失误</strong>。</li>
+                    <li>每月处理 <strong class="stat-number">6</strong> 个部门财务报销，一学期经手 <strong class="stat-number">20+</strong> 份报销资料；筹备财务培训会覆盖 <strong class="stat-number">6</strong> 个部门 + <strong class="stat-number">16</strong> 个支部，提升全员财务合规意识。</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ SKILLS ═══════ -->
+    <section class="section" id="skills">
+        <div class="section-inner">
+            <div class="section-tag">Skills & Certificates</div>
+            <h2 class="section-title">技能证书</h2>
+            <div class="section-divider"></div>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <div class="skill-cat-icon">🌐</div>
+                    <div class="skill-cat-title">语言水平</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag accent">普通话母语</span>
+                        <span class="skill-tag accent">粤语流利</span>
+                        <span class="skill-tag">CET-4</span>
+                        <span class="skill-tag">CET-6</span>
+                        <span class="skill-tag accent">英文读写能力强</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-cat-icon">📊</div>
+                    <div class="skill-cat-title">专业水平</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag accent">ACCA 10/13</span>
+                        <span class="skill-tag accent">初级会计师证</span>
+                        <span class="skill-tag">凭证审核</span>
+                        <span class="skill-tag">固定资产盘点</span>
+                        <span class="skill-tag">财务合规</span>
+                        <span class="skill-tag">内控核查</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-cat-icon">💻</div>
+                    <div class="skill-cat-title">办公技能</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag accent">计算机二级证</span>
+                        <span class="skill-tag">Excel 精通</span>
+                        <span class="skill-tag">Word</span>
+                        <span class="skill-tag">PPT</span>
+                        <span class="skill-tag">数据透视表</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">数据清洗</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ DOWNLOAD ═══════ -->
+    <section class="download-section" id="download">
+        <div class="download-card">
+            <div class="dl-icon">📄</div>
+            <div class="dl-text">在线简历 PDF 下载</div>
+            <div class="dl-filename">李昊阳 — 个人简历.pdf</div>
+            <a href="李昊阳简历.pdf" class="download-btn" download>
+                下载简历 <span class="dl-arrow">⬇</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- ═══════ CONTACT ═══════ -->
+    <section class="section contact-section" id="contact">
+        <div class="section-inner">
+            <div class="section-tag">Contact</div>
+            <h2 class="section-title">联系我</h2>
+            <div class="contact-grid">
+                <a href="mailto:2479540927@qq.com" class="contact-link">
+                    <span class="icon">📧</span> 2479540927@qq.com
+                </a>
+                <a href="tel:13729933566" class="contact-link">
+                    <span class="icon">📱</span> 137-2993-3566
+                </a>
+            </div>
+            <p class="contact-footer">
+                感谢您的浏览 — <span class="contact-highlight">期待与您进一步沟通</span>
+            </p>
+        </div>
+    </section>
+
+    <script>
+        // ── Floating particles in hero ──
+        (function() {
+            const container = document.getElementById('heroParticles');
+            if (!container) return;
+            const count = 30;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                p.style.left = Math.random() * 100 + '%';
+                p.style.width = (1 + Math.random() * 2) + 'px';
+                p.style.height = p.style.width;
+                p.style.animationDelay = Math.random() * 8 + 's';
+                p.style.animationDuration = (4 + Math.random() * 8) + 's';
+                p.style.opacity = (0.2 + Math.random() * 0.5);
+                container.appendChild(p);
+            }
+        })();
+
+        // ── Typing effect for hero subtitle ──
+        (function() {
+            const el = document.getElementById('heroSubtitle');
+            if (!el) return;
+            const cursor = el.querySelector('.cursor');
+            const fullText = '会计学（ACCA方向）· 审计与风控 · 数据分析';
+            const texts = ['会计学（ACCA方向）· 审计与风控 · 数据分析', 'ACCA 10/13 · 审计助理 · 业务助理', 'Excel 精通 · Python · 数据清洗', '期待与您共创价值 ✨'];
+            let textIdx = 0, charIdx = 0, isDeleting = false;
+            function tick() {
+                const current = texts[textIdx];
+                if (isDeleting) {
+                    el.childNodes[0].textContent = current.substring(0, charIdx - 1);
+                    charIdx--;
+                } else {
+                    el.childNodes[0].textContent = current.substring(0, charIdx + 1);
+                    charIdx++;
+                }
+                if (!isDeleting && charIdx === current.length) {
+                    setTimeout(() => { isDeleting = true; tick(); }, 2000);
+                    return;
+                }
+                if (isDeleting && charIdx === 0) {
+                    isDeleting = false;
+                    textIdx = (textIdx + 1) % texts.length;
+                }
+                const speed = isDeleting ? 30 : 60 + Math.random() * 40;
+                setTimeout(tick, speed);
+            }
+            if (cursor) cursor.style.display = 'inline-block';
+            tick();
+        })();
+
+        // ── Scroll effects ──
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // ── Mobile nav toggle ──
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+        function closeNav() {
+            navLinks.classList.remove('open');
+        }
+        document.addEventListener('click', (e) => {
+            if (!nav.contains(e.target)) navLinks.classList.remove('open');
+        });
+
+        // ── Active nav link on scroll ──
+        const sections = document.querySelectorAll('section[id]');
+        const links = document.querySelectorAll('.nav-links a:not(.nav-download)');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(s => {
+                if (window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id');
+            });
+            links.forEach(l => {
+                l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+            });
+        });
+
+        // ── Fade-in animation for cards ──
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.style.opacity = '1';
+                    e.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.timeline-card, .edu-card, .skill-category, .campus-card, .about-info-card, .download-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // ── Number count-up animation ──
+        const countObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    const el = e.target;
+                    const target = parseInt(el.getAttribute('data-count'));
+                    const suffix = el.getAttribute('data-suffix') || '';
+                    const duration = 1500;
+                    const start = performance.now();
+                    function update(now) {
+                        const elapsed = now - start;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const eased = 1 - Math.pow(1 - progress, 3);
+                        el.textContent = Math.floor(eased * target) + suffix;
+                        if (progress < 1) requestAnimationFrame(update);
+                    }
+                    requestAnimationFrame(update);
+                    countObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.count-up').forEach(el => countObserver.observe(el));
+    </script>
+</body>
+</html>
