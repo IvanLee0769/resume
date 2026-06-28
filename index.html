@@ -246,6 +246,48 @@
         }
         .hero-contact-item:hover { color: var(--white); transform: translateY(-2px); }
         .hero-contact-item .icon { color: var(--gold); font-size: 1.1rem; }
+        .hero-contact-btn {
+            display: flex; align-items: center; gap: 8px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+            transition: color 0.3s, transform 0.3s;
+            background: none; border: none; cursor: pointer;
+            font-family: inherit; padding: 0;
+        }
+        .hero-contact-btn:hover { color: var(--white); transform: translateY(-2px); }
+        .hero-contact-btn .icon { color: var(--gold); font-size: 1.1rem; }
+        .hero-contact-btn.revealed { color: var(--gold-light); }
+        .reveal-btn {
+            display: flex; align-items: center; gap: 12px;
+            color: rgba(255,255,255,0.8);
+            font-size: 1.05rem; font-family: inherit;
+            padding: 16px 28px;
+            border-radius: var(--radius);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .reveal-btn:hover {
+            background: rgba(201,169,98,0.12);
+            border-color: var(--gold);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+        .reveal-btn .icon { font-size: 1.3rem; }
+        .reveal-btn.revealed {
+            border-color: var(--gold);
+            background: rgba(201,169,98,0.08);
+            color: var(--gold-light);
+            cursor: pointer;
+        }
+        .reveal-btn .copy-hint {
+            font-size: 0.7rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            margin-left: 4px;
+        }
+        .reveal-btn.revealed .copy-hint { opacity: 0.7; }
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(24px); }
             to   { opacity: 1; transform: translateY(0); }
@@ -649,12 +691,12 @@
                 </a>
             </div>
             <div class="hero-contact">
-                <div class="hero-contact-item">
-                    <span class="icon">📧</span> 2479540927@qq.com
-                </div>
-                <div class="hero-contact-item">
-                    <span class="icon">📱</span> 137-2993-3566
-                </div>
+                <button class="hero-contact-btn" id="heroEmailBtn" onclick="revealContact('heroEmailBtn','email')">
+                    <span class="icon">📧</span> 点击查看邮箱
+                </button>
+                <button class="hero-contact-btn" id="heroPhoneBtn" onclick="revealContact('heroPhoneBtn','phone')">
+                    <span class="icon">📱</span> 点击查看电话
+                </button>
                 <div class="hero-contact-item">
                     <span class="icon">📍</span> 广东东莞
                 </div>
@@ -865,12 +907,12 @@
             <div class="section-tag">Contact</div>
             <h2 class="section-title">联系我</h2>
             <div class="contact-grid">
-                <a href="mailto:2479540927@qq.com" class="contact-link">
-                    <span class="icon">📧</span> 2479540927@qq.com
-                </a>
-                <a href="tel:13729933566" class="contact-link">
-                    <span class="icon">📱</span> 137-2993-3566
-                </a>
+                <button class="reveal-btn" id="contactEmailBtn" onclick="revealContact('contactEmailBtn','email')">
+                    <span class="icon">📧</span> 点击查看邮箱 <span class="copy-hint">(点击复制)</span>
+                </button>
+                <button class="reveal-btn" id="contactPhoneBtn" onclick="revealContact('contactPhoneBtn','phone')">
+                    <span class="icon">📱</span> 点击查看电话 <span class="copy-hint">(点击复制)</span>
+                </button>
             </div>
             <p class="contact-footer">
                 感谢您的浏览 — <span class="contact-highlight">期待与您进一步沟通</span>
@@ -879,6 +921,42 @@
     </section>
 
     <script>
+        // ── Anti-bot: click-to-reveal contact info ──
+        const CONTACTS = {
+            email: atob('MjQ3OTU0MDkyN0BxcS5jb20='),
+            phone: atob('MTM3LTI5OTMtMzU2Ng==')
+        };
+        function revealContact(btnId, type) {
+            const btn = document.getElementById(btnId);
+            if (!btn) return;
+            const value = CONTACTS[type];
+            const revealed = btn.classList.contains('revealed');
+            if (revealed) {
+                // Already revealed — copy to clipboard
+                navigator.clipboard.writeText(value).then(() => {
+                    const orig = btn.innerHTML;
+                    btn.innerHTML = '✅ 已复制到剪贴板';
+                    setTimeout(() => { btn.innerHTML = orig; }, 1800);
+                }).catch(() => {
+                    // Fallback: select text
+                    const sel = window.getSelection();
+                    const range = document.createRange();
+                    range.selectNodeContents(btn);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                });
+            } else {
+                // First click — reveal
+                const icon = type === 'email' ? '📧' : '📱';
+                const hint = btn.querySelector('.copy-hint');
+                const hintHTML = hint ? ' <span class="copy-hint">(点击复制)</span>' : '';
+                btn.innerHTML = icon + ' ' + value + hintHTML;
+                btn.classList.add('revealed');
+                if (type === 'email') btn.setAttribute('data-email', value);
+                if (type === 'phone') btn.setAttribute('data-phone', value);
+            }
+        }
+
         // ── Floating particles in hero ──
         (function() {
             const container = document.getElementById('heroParticles');
